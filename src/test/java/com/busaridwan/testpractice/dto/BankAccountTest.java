@@ -38,14 +38,16 @@ class BankAccountTest {
         BankAccount account = new BankAccount("Ridwan", "Busari", 1_000.00, BankAccount.CHECKING);
         assertTrue(account.isChecking());
     }
+
     @Test
     void isSavings() {
 //        fail("Not implemented yet");
         BankAccount account = new BankAccount("Ridwan", "Busari", 1_000.00, BankAccount.SAVINGS);
         assertFalse(account.isChecking());
     }
+
     @Test
-    void dummyTest(){
+    void dummyTest() {
         double actual = 19.00 + 2.00;
         double expected = 21.00;
         assertEquals(expected, actual);

@@ -37,7 +37,7 @@ public class BankAccount {
         return balance;
     }
 
-    public boolean isChecking(){
+    public boolean isChecking() {
         return accountType == CHECKING;
     }
 
