@@ -21,7 +21,7 @@ public class CustomerService {
     public ResponseEntity<Response> saveCustomer(Customer customer) {
         Response response = new Response();
         try {
-            Optional<Customer> checkCustomer = repository.findCustomerByUsername(customer.getUsername());
+            Optional<Customer> checkCustomer = repository.findByUsername(customer.getUsername());
             if (checkCustomer.isPresent()) {
                 response.setCode(ResponseCodes.DUPLICATE)
                         .setMessage(ResponseMessages.DUPLICATE);
@@ -86,6 +86,10 @@ public class CustomerService {
             return ResponseEntity.internalServerError().body(response);
         }
 
+    }
+
+    public Optional<Customer> findCustomerByUsername(String username){
+        return repository.findByUsername(username);
     }
 
     public ResponseEntity<Response> updateCustomer(int id, Customer customer) {
