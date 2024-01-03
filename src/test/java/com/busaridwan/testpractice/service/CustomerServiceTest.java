@@ -1,20 +1,34 @@
 package com.busaridwan.testpractice.service;
 
+import com.busaridwan.testpractice.dto.Response;
 import com.busaridwan.testpractice.entity.Customer;
+import com.busaridwan.testpractice.repository.CustomerRepository;
+import com.busaridwan.testpractice.util.PhoneEmailValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @Slf4j
 @SpringBootTest
 class CustomerServiceTest {
-    @Autowired
-    CustomerService service;
+    // Mock Dependencies
+    @Mock
+    private CustomerRepository repository;
+    @Mock
+    private PhoneEmailValidator validator;
+    // Inject mocked dependencies in the test service
+    @InjectMocks
+    private CustomerService service;
     @BeforeAll
     static void beforeAll() {
         log.info("Before class");
@@ -27,6 +41,7 @@ class CustomerServiceTest {
 
     @BeforeEach
     void setUp(){
+        MockitoAnnotations.openMocks(this);
         log.info("Before each method");
     }
 
@@ -38,23 +53,35 @@ class CustomerServiceTest {
     @Test
     void saveCustomer() {
         log.info("save customer method");
+        // Given
         Customer customer = Customer.builder().firstName("ridwan").username("busari").build();
-        service.saveCustomer(customer);
-        Optional<Customer> dbCustomer = service.findCustomerByUsername("busari");
-        if (dbCustomer.isEmpty()){
-            fail("save customer method failed");
-        }else {
-            log.info("new customer : {}", dbCustomer);
-            String username = dbCustomer.get().getUsername();
-            assertEquals(username, "busari");
-            assertEquals(1L, dbCustomer.get().getId());
-        }
+        when(validator.isValidEmailFormat("ridwan@eco.ng")).thenReturn(true);
+        when(repository.save(customer)).thenReturn(customer);
+        // When
+        ResponseEntity<Response> response = service.saveCustomer(customer);
+        // Then
+        assertEquals("000", response.getBody().getCode());
+    }
 
+    @Test
+    void shouldCallRepositorySaveOnce(){
+        Customer customer = Customer.builder().firstName("ridwan").username("busari").build();
+        ResponseEntity<Response> response = service.saveCustomer(customer);
+        verify(repository, times(1)).save(customer);
     }
 
     @Test
     void getAllCustomers() {
 //        fail();
+//        Given
+        Customer customer = Customer.builder().firstName("ridwan").username("busari").build();
+        List<Customer> customers = new ArrayList<>();
+        when(repository.findAll()).thenReturn(customers);
+//        When
+        ResponseEntity<Response> response = service.getAllCustomers();
+        List<Customer> responseCustomers = (List<Customer>) response.getBody().getData();
+        assertEquals(customers.size(), responseCustomers.size());
+        verify(repository, times(1)).findAll();
     }
 
     @Test

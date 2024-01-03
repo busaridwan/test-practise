@@ -49,7 +49,8 @@ public class CustomerService {
             List<Customer> dbResponse = repository.findAll();
             if (dbResponse.isEmpty()) {
                 response.setCode(ResponseCodes.NOT_FOUND)
-                        .setMessage(ResponseMessages.NOT_FOUND);
+                        .setMessage(ResponseMessages.NOT_FOUND)
+                        .setData(dbResponse);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
             }
             response.setData(dbResponse)
