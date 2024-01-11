@@ -1,9 +1,9 @@
 package com.busaridwan.testpractice.solid.interfacesegregation.bad;
 
-public class BadDBDaoConnection implements BadDAOInterface{
+public class BadFileDaoConnection implements BadDAOInterface{
     @Override
     public void openConnection() {
-
+        throw new UnsupportedOperationException("Open DB Connection not supported");
     }
 
     @Override
@@ -13,7 +13,7 @@ public class BadDBDaoConnection implements BadDAOInterface{
 
     @Override
     public void openFile() {
-        throw new UnsupportedOperationException("Open File not supported");
+
     }
 
     @Override
