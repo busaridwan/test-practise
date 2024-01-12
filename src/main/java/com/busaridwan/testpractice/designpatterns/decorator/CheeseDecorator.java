@@ -8,6 +8,6 @@ public class CheeseDecorator extends PizzaDecorator {
         return pizza.bake() + addCheese();
     }
     public String addCheese(){
-        return "cheese";
+        return " cheese ";
     }
 }
