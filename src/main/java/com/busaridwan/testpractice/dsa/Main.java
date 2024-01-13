@@ -1,0 +1,17 @@
+package com.busaridwan.testpractice.dsa;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1, 4, 3, 5, 6, 3, 1, 9, 7, 2, 1};
+        Map<Integer, Integer> counts = new HashMap<>(arr.length);
+        for (int i : arr) {
+            counts.put(i, counts.getOrDefault(i, 0) + 1);
+        }
+        counts.forEach((key, value) -> System.out.println(key + " occurs " + value + " times"));
+        Set<Integer> set = Arrays.stream(arr).boxed().collect(Collectors.toSet());
+        System.out.println(set);
+    }
+}
