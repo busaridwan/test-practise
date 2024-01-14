@@ -1,5 +1,7 @@
 package com.busaridwan.testpractice.dsa;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,5 +15,14 @@ public class Main {
         counts.forEach((key, value) -> System.out.println(key + " occurs " + value + " times"));
         Set<Integer> set = Arrays.stream(arr).boxed().collect(Collectors.toSet());
         System.out.println(set);
+
+        System.out.println("Currency Format "+ currencyFormat(new BigDecimal("123_345.65")));
+    }
+
+    static String currencyFormat(BigDecimal amount){
+        DecimalFormat format = new DecimalFormat();
+        String result = format.toLocalizedPattern();
+        result.formatted(amount);
+        return result;
     }
 }
