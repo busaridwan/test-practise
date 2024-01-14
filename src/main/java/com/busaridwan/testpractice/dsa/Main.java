@@ -16,13 +16,11 @@ public class Main {
         Set<Integer> set = Arrays.stream(arr).boxed().collect(Collectors.toSet());
         System.out.println(set);
 
-        System.out.println("Currency Format "+ currencyFormat(new BigDecimal("123_345.65")));
+        System.out.println("Currency Format "+ currencyFormat(new BigDecimal(12345.65)));
     }
 
     static String currencyFormat(BigDecimal amount){
-        DecimalFormat format = new DecimalFormat();
-        String result = format.toLocalizedPattern();
-        result.formatted(amount);
-        return result;
+        DecimalFormat format = new DecimalFormat("$###,###.##");
+        return format.format(amount);
     }
 }
